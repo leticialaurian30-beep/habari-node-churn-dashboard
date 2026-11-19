@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Overview</h1>
+<p>Habari Node ISP — Customer Churn Analytics (Real Data)</p>
+
+<div class="stat-cards">
+    <div class="stat-card">
+        <div class="value">2,238</div>
+        <div class="label">Customers Analyzed</div>
+    </div>
+    <div class="stat-card">
+        <div class="value">50.0%</div>
+        <div class="label">Overall Churn Rate</div>
+    </div>
+    <div class="stat-card">
+        <div class="value">79.7%</div>
+        <div class="label">Model Accuracy</div>
+    </div>
+    <div class="stat-card">
+        <div class="value">{{ prediction_count }}</div>
+        <div class="label">Predictions Made</div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>Avg Support Tickets: Stayed vs Churned</h3>
+    <canvas id="ticketsChart" height="90"></canvas>
+</div>
+
+<div class="card">
+    <h3>Average Tenure: Stayed vs Churned</h3>
+    <canvas id="tenureChart" height="90"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+new Chart(document.getElementById('ticketsChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Network Downtime', 'Power Issues', 'Payment', 'Faulty Equipment'],
+        datasets: [
+            { label: 'Stayed', data: [0.97, 0.63, 0.46, 0.30], backgroundColor: '#166534' },
+            { label: 'Churned', data: [2.59, 1.33, 0.87, 0.50], backgroundColor: '#e2231a' }
+        ]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+});
+
+new Chart(document.getElementById('tenureChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Stayed', 'Churned'],
+        datasets: [{ label: 'Avg Tenure (months)', data: [15.6, 9.7], backgroundColor: ['#166534', '#e2231a'] }]
+    },
+    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+</script>
+{% endblock %}

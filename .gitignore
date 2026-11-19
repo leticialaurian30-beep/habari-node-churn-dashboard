@@ -1,0 +1,1 @@
+model/*.pkl on its own line if you'd rather not publish the real model file publicly, plus __pycache__/ and *.pyc

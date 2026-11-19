@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Predict Churn{% endblock %}
+{% block content %}
+<h1>Customer Churn Predictor</h1>
+<p>Enter customer details to check churn risk (Habari Node model)</p>
+
+<div class="card" style="max-width: 500px;">
+    <form method="POST" action="/predict">
+        <label>Tenure (months as customer)</label>
+        <input type="number" name="tenure" required>
+
+        <label>Network Downtime Tickets (last 6 months)</label>
+        <input type="number" name="downtime_tickets" required>
+
+        <label>Total Support Tickets (last 6 months)</label>
+        <input type="number" name="total_tickets" required>
+
+        <label>Fair Usage Policy (FUP) Triggered?</label>
+        <select name="fup">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+
+        <button type="submit">Predict Churn</button>
+    </form>
+
+    {% if prediction is not none %}
+    <div class="result {{ 'churn' if prediction == 1 else 'no-churn' }}">
+        {% if prediction == 1 %}
+            ⚠ This customer is likely to CHURN (Risk: {{ probability }}%)
+        {% else %}
+            ✔ This customer is likely to STAY (Churn Risk: {{ probability }}%)
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

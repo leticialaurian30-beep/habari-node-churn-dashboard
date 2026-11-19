@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<h1>Prediction History</h1>
+<p>Recent churn predictions made by staff</p>
+
+<div class="card">
+    {% if history|length == 0 %}
+        <p>No predictions made yet. Go to Predict Churn to run your first one.</p>
+    {% else %}
+    <table>
+        <tr><th>Time</th><th>Tenure</th><th>Downtime Tickets</th><th>Total Tickets</th><th>FUP</th><th>Result</th><th>Risk</th></tr>
+        {% for row in history %}
+        <tr>
+            <td>{{ row.time }}</td>
+            <td>{{ row.tenure }}</td>
+            <td>{{ row.downtime }}</td>
+            <td>{{ row.total_tickets }}</td>
+            <td>{{ row.fup }}</td>
+            <td><span class="badge {{ 'badge-churn' if row.result == 'Churn' else 'badge-stay' }}">{{ row.result }}</span></td>
+            <td>{{ row.probability }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
