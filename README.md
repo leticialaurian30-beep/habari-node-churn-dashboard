@@ -50,5 +50,7 @@ To use it, copy the sample file to the name the setup scripts expect:
     cp sample_data.csv habarinode_combined.csv       (Mac or Linux)
 
 Then follow the setup steps above from step 3 onward. The results shown on the sample data will not match the real results reported above, because the sample data is artificial.
+
 ---
+
 Built by Leticia Laurian Kalamata
