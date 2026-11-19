@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}At-Risk Customers{% endblock %}
+{% block content %}
+<h1>All At-Risk Customers</h1>
+<p>{{ customers|length }} customer(s) matching your filters</p>
+
+<div class="card">
+    <form method="GET" style="display: flex; gap: 15px; align-items: end; flex-wrap: wrap;">
+        <div>
+            <label>Search by Customer ID</label>
+            <input type="text" name="search" value="{{ search }}" placeholder="e.g. HN-D-1074">
+        </div>
+        <div>
+            <label>Region</label>
+            <select name="region">
+                <option value="">All Regions</option>
+                {% for r in regions %}
+                <option value="{{ r }}" {{ 'selected' if r == selected_region }}>{{ r }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Sort By</label>
+            <select name="sort">
+                <option value="risk" {{ 'selected' if sort_by == 'risk' }}>Highest Risk</option>
+                <option value="tenure" {{ 'selected' if sort_by == 'tenure' }}>Tenure</option>
+                <option value="package" {{ 'selected' if sort_by == 'package' }}>Package</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Apply Filters</button>
+        </div>
+        <div>
+            <a href="/export-csv?region={{ selected_region }}&search={{ search }}">
+                <button type="button">Export to CSV</button>
+            </a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <table>
+        <tr><th>Customer ID</th><th>Region</th><th>Package</th><th>Tenure</th><th>Downtime Tickets</th><th>Total Tickets</th><th>Risk</th><th>Status</th></tr>
+        {% for c in customers %}
+        <tr>
+            <td><a href="/customer/{{ c[0] }}" style="color: #e2231a; font-weight: bold; text-decoration: none;">{{ c[0] }}</a></td>
+            <td>{{ c[1] }}</td>
+            <td>{{ c[2] }}</td>
+            <td>{{ c[3] }}</td>
+            <td>{{ c[4] }}</td>
+            <td>{{ c[5] }}</td>
+            <td><span class="badge badge-churn">{{ c[6] }}%</span></td>
+            <td>{{ c[7] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

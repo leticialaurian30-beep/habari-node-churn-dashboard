@@ -6,12 +6,12 @@
 
 <div class="stat-cards">
     <div class="stat-card">
-        <div class="value">2,238</div>
+        <div class="value">{{ total_customers }}</div>
         <div class="label">Customers Analyzed</div>
     </div>
     <div class="stat-card">
-        <div class="value">50.0%</div>
-        <div class="label">Overall Churn Rate</div>
+        <div class="value">{{ total_at_risk }}</div>
+        <div class="label">Customers At Risk</div>
     </div>
     <div class="stat-card">
         <div class="value">79.7%</div>
@@ -19,7 +19,7 @@
     </div>
     <div class="stat-card">
         <div class="value">{{ prediction_count }}</div>
-        <div class="label">Predictions Made</div>
+        <div class="label">Manual Checks Made</div>
     </div>
 </div>
 
@@ -31,6 +31,24 @@
 <div class="card">
     <h3>Average Tenure: Stayed vs Churned</h3>
     <canvas id="tenureChart" height="90"></canvas>
+</div>
+
+<div class="card">
+    <h3>Customers At Risk (Top 20)</h3>
+    <table>
+    <tr><th>Customer ID</th><th>Region</th><th>Tenure (months)</th><th>Downtime Tickets</th><th>Total Tickets</th><th>Risk</th><th>Status</th></tr>
+    {% for c in at_risk %}
+    <tr>
+        <td><a href="/customer/{{ c[0] }}" style="color: #e2231a; font-weight: bold; text-decoration: none;">{{ c[0] }}</a></td>
+        <td>{{ c[1] }}</td>
+        <td>{{ c[2] }}</td>
+        <td>{{ c[3] }}</td>
+        <td>{{ c[4] }}</td>
+        <td><span class="badge badge-churn">{{ c[5] }}%</span></td>
+        <td>{{ c[6] }}</td>
+    </tr>
+    {% endfor %}
+</table>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>

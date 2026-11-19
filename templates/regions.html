@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Regions{% endblock %}
+{% block content %}
+<h1>Churn Risk by Region</h1>
+<p>Regions flagged "Needs Attention" have noticeably higher network downtime complaints than average, a possible sign of a local infrastructure problem rather than isolated complaints.</p>
+
+<div class="card">
+    <table>
+        <tr><th>Region</th><th>Total Customers</th><th>At Risk</th><th>At-Risk %</th><th>Avg Downtime Tickets</th><th>Flag</th></tr>
+        {% for r in regions %}
+        <tr>
+            <td>{{ r.region }}</td>
+            <td>{{ r.total }}</td>
+            <td>{{ r.at_risk_count }}</td>
+            <td>{{ r.at_risk_pct }}%</td>
+            <td>{{ r.avg_downtime }}</td>
+            <td>
+                {% if r.needs_attention %}
+                <span class="badge badge-churn">Needs Attention</span>
+                {% else %}
+                <span class="badge badge-stay">Normal</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

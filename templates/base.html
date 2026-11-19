@@ -37,10 +37,16 @@
 <div class="layout">
     <div class="sidebar">
         <h2>Habari Node<br>Churn System</h2>
-        <a href="/dashboard" class="{{ 'active' if active=='dashboard' }}"> Dashboard</a>
-        <a href="/predict" class="{{ 'active' if active=='predict' }}"> Predict Churn</a>
-        <a href="/history" class="{{ 'active' if active=='history' }}"> History</a>
-        <a href="/logout" class="logout">🚪 Logout</a>
+        {% if session.full_name %}
+        <p style="padding: 0 20px; color: #94a3b8; font-size: 13px; margin: -8px 0 12px;">Logged in as {{ session.full_name }}</p>
+        {% endif %}
+        <a href="/dashboard" class="{{ 'active' if active=='dashboard' }}">Dashboard</a>
+        <a href="/at-risk" class="{{ 'active' if active=='at_risk_list' }}">At-Risk List</a>
+        <a href="/regions" class="{{ 'active' if active=='regions' }}">Regions</a>
+        <a href="/accountability" class="{{ 'active' if active=='accountability' }}">Accountability</a>
+        <a href="/predict" class="{{ 'active' if active=='predict' }}">Predict Churn</a>
+        <a href="/history" class="{{ 'active' if active=='history' }}">History</a>
+        <a href="/logout" class="logout">Logout</a>
     </div>
     <div class="content">
         {% block content %}{% endblock %}

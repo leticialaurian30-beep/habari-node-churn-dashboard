@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Customer {{ customer.customer_id }}{% endblock %}
+{% block content %}
+<h1>Customer {{ customer.customer_id }}</h1>
+<p>Region: {{ customer.region }} | Package: {{ customer.package }}</p>
+
+<div class="card" style="max-width: 600px;">
+    <h3>Risk Summary</h3>
+    <table>
+        <tr><td>Churn Risk</td><td><span class="badge badge-churn">{{ customer.churn_probability }}%</span></td></tr>
+        <tr><td>Tenure</td><td>{{ customer.tenure_months }} months</td></tr>
+        <tr><td>Network Downtime Tickets</td><td>{{ customer.network_downtime_tickets }}</td></tr>
+        <tr><td>Power Issue Tickets</td><td>{{ customer.power_issue_tickets }}</td></tr>
+        <tr><td>Payment Tickets</td><td>{{ customer.payment_tickets }}</td></tr>
+        <tr><td>Faulty Equipment Tickets</td><td>{{ customer.faulty_equipment_tickets }}</td></tr>
+        <tr><td>Total Tickets (6 months)</td><td>{{ customer.total_tickets_6mo }}</td></tr>
+        <tr><td>FUP Triggered</td><td>{{ 'Yes' if customer.fup_triggered == 1 else 'No' }}</td></tr>
+    </table>
+</div>
+
+<div class="card" style="max-width: 600px;">
+    <h3>Follow-Up</h3>
+    <form method="POST">
+        <label>Contact Status</label>
+        <select name="contact_status">
+            <option value="Not Contacted" {{ 'selected' if customer.contact_status == 'Not Contacted' }}>Not Contacted</option>
+            <option value="Contacted" {{ 'selected' if customer.contact_status == 'Contacted' }}>Contacted</option>
+            <option value="Resolved" {{ 'selected' if customer.contact_status == 'Resolved' }}>Resolved</option>
+            <option value="Escalated to Technical Team" {{ 'selected' if customer.contact_status == 'Escalated to Technical Team' }}>Escalated to Technical Team</option>
+        </select>
+
+        <label>Notes</label>
+        <input type="text" name="notes" value="{{ customer.notes or '' }}" placeholder="e.g. Called customer, promised technician visit Thursday">
+
+        <button type="submit">Save Update</button>
+    </form>
+    {% if customer.status_updated_at %}
+    <p style="margin-top: 15px; color: #64748b; font-size: 13px;">Last updated: {{ customer.status_updated_at }}</p>
+    {% endif %}
+</div>
+{% endblock %}

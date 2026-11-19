@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Accountability{% endblock %}
+{% block content %}
+<h1>Accountability Report</h1>
+<p>How the team is responding to at-risk customers</p>
+
+<div class="stat-cards">
+    {% for status, count in status_counts %}
+    <div class="stat-card">
+        <div class="value">{{ count }}</div>
+        <div class="label">{{ status }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card">
+    <h3>Response Speed</h3>
+    {% if avg_response is not none %}
+    <p>Based on {{ responded_count }} customer{{ 's' if responded_count != 1 }} followed up on so far, staff take an average of <b>{{ avg_response }} minutes</b> from a customer being flagged to being followed up.</p>
+    {% else %}
+    <p>No follow-ups recorded yet. Once staff update a customer's status, response time will appear here.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3>By Staff Member</h3>
+    {% if by_officer|length == 0 %}
+    <p>No staff updates recorded yet.</p>
+    {% else %}
+    <table>
+        <tr><th>Officer</th><th>Actions Taken</th><th>Resolved</th></tr>
+        {% for officer, actions, resolved in by_officer %}
+        <tr>
+            <td>{{ officer }}</td>
+            <td>{{ actions }}</td>
+            <td>{{ resolved }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
